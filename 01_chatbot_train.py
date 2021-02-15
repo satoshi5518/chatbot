@@ -1,4 +1,5 @@
 import pickle
+import re
 import numpy as np
 from keras.models import Model
 from keras.layers import Dense, GRU, Input, Masking
@@ -24,6 +25,7 @@ with open(".\\text\\question.txt", mode="r", encoding="shift_jis") as f:  # 前�
 seperator = "@"
 q_sentence_list = q_text.split(seperator) 
 q_sentence_list.pop() 
+q_sentence_list = [re.sub("[\n\t]", "", x) for x in q_sentence_list]
 #print(q_sentence_list)
 
 with open(".\\text\\answer.txt", mode="r", encoding="shift_jis") as f:  # 前回保存したファイル
@@ -31,6 +33,7 @@ with open(".\\text\\answer.txt", mode="r", encoding="shift_jis") as f:  # 前回
 #print(a_text)
 a_sentence_list = a_text.split(seperator) 
 a_sentence_list.pop() 
+a_sentence_list = [re.sub("[\n\t]", "", x) for x in a_sentence_list]
 #print(a_sentence_list)
 
 max_sentence_length = 15  # 文章の最大長さ。これより長い文章はカットされる。
@@ -74,7 +77,7 @@ for i in range(n_sample):
 
 #Model構築
 batch_size = 32
-epochs = 1000
+epochs = 3000
 n_mid = 256  # 中間層のニューロン数
 
 encoder_input = Input(shape=(None, n_char))
