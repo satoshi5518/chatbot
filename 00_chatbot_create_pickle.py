@@ -4,7 +4,7 @@ import codecs
 import re
 import pickle
 
-files = glob.glob("./text/*")
+files = glob.glob("./text/*.txt")
 text = ""
 for file in files:
     with open(file, mode="r", encoding="shift_jis") as f:  # ファイルの読み込み
