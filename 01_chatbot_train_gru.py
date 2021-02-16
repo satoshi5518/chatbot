@@ -83,14 +83,12 @@ n_mid = 256  # 中間層のニューロン数
 encoder_input = Input(shape=(None, n_char))
 encoder_mask = Masking(mask_value=0)  # 全ての要素が0であるベクトルの入力は無視する
 encoder_masked = encoder_mask(encoder_input)
-#encoder_lstm = LSTM(n_mid, dropout=0.2, recurrent_dropout=0.2, return_state=True)  # dropoutを設定し、ニューロンをランダムに無効にする
 encoder_lstm = GRU(n_mid, dropout=0.2, recurrent_dropout=0.2, return_state=True)  # dropoutを設定し、ニューロンをランダムに無効にする
 encoder_output, encoder_state_h = encoder_lstm(encoder_masked)
 
 decoder_input = Input(shape=(None, n_char))
 decoder_mask = Masking(mask_value=0)  # 全ての要素が0であるベクトルの入力は無視する
 decoder_masked = decoder_mask(decoder_input)
-#decoder_lstm = LSTM(n_mid, dropout=0.2, recurrent_dropout=0.2, return_sequences=True, return_state=True)  # dropoutを設定
 decoder_lstm = GRU(n_mid, dropout=0.2, recurrent_dropout=0.2, return_sequences=True, return_state=True)  # dropoutを設定
 decoder_output, _ = decoder_lstm(decoder_masked, initial_state=encoder_state_h)  # encoderの状態を初期状態にする
 decoder_dense = Dense(n_char, activation='softmax')
@@ -119,7 +117,6 @@ plt.plot(np.arange(len(loss)), loss)
 plt.plot(np.arange(len(val_loss)), val_loss)
 #plt.show()
 fig.savefig("train_result_gru_(batch" + str(batch_size) + "_epochs" + str(epochs) + "_nmid" + str(n_mid) + ").png")
-#fig.savefig("train_result_lstm_(batch" + str(batch_size) + "_epochs" + str(epochs) + "_nmid" + str(n_mid) + ").png")
 
 # encoderのモデル
 encoder_model = Model(encoder_input, encoder_state_h)
