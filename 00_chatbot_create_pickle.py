@@ -28,7 +28,7 @@ sentence_list = [x+seperator for x in sentence_list]
 #print(text)
 
 chars = ""
-for char in text:  # ひらがな、カタカナ以外でコーパスに使われている文字を追加
+for char in text:  # コーパスに使われている文字を追加
     if (char not in chars) and char != "@":
         chars += char
 chars += "\t\n"
